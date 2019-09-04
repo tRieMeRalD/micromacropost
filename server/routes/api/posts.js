@@ -2,6 +2,7 @@ const express = require("express");
 const mongodb = require("mongodb");
 
 const router = express.Router();
+const keys = require("../../config/keys");
 
 // Gets posts
 router.get("/", async (req, res) => {
@@ -34,13 +35,10 @@ router.delete("/:id", async (req, res) => {
 });
 
 async function loadPostsCollection() {
-  const client = await mongodb.MongoClient.connect(
-    "mongodb+srv://abc123:qwerty1234@cluster0-dcuu9.mongodb.net/test?retryWrites=true&w=majority",
-    {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    }
-  );
+  const client = await mongodb.MongoClient.connect(`${keys.password}`, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  });
 
   return client.db("vuejs").collection("posts");
 }
